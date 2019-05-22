@@ -3,11 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <title>Dash.js Rocks</title>
 </head>
 <body>
-    <div id="container">
-        <video class="video-player" controls></video>
+    <div class="video-container">
+        <video id="video-player" ></video>
+        <div id="video-controller">
+            <div id="prev-btn">
+                <span class="icon-btn">
+                    <i class="fas fa-fast-backward"></i>
+                </span>
+            </div>
+            <div id="play-btn">
+                <span class="icon-btn">
+                    <i class="fas fa-play"></i>
+                </span>
+            </div>
+            <div id="next-btn">
+                <span class="icon-btn">
+                    <i class="fas fa-fast-forward"></i>
+                </span>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -1,7 +1,8 @@
-import {MediaPlayer} from 'dashjs';
+import dashjs from 'dashjs';
 
 import './index.css';
 
-const url = "http://demo.unified-streaming.com/video/ateam/ateam.ism/ateam.mpd";
-const player = MediaPlayer().create();
-player.initialize(document.querySelector('.video-player'), url, true);
+const video = document.querySelector('#video-player');
+const url = "http://dash.edgesuite.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd";
+const player = dashjs.MediaPlayer().create();
+player.initialize(video, url, true);
