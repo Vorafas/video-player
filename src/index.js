@@ -5,6 +5,7 @@ import './index.css';
 const video = document.querySelector('#video-player');
 const playBtn = document.querySelector('#play-btn');
 const progress = document.querySelector('#seekbar-play');
+const seekContainer = document.querySelector('#seek-container');
 
 const url = "http://dash.edgesuite.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd";
 const player = dashjs.MediaPlayer().create();
@@ -28,5 +29,16 @@ const progressUpdate = function(){
     progress.style.width = `${(100 * c) / d}%`; 
 }
 
-video.ontimeupdate = progressUpdate;
+const videoRewind = function(evt){
+    const widthSeekbar = this.offsetWidth;
+    const o = evt.offsetX;
+    //console.log(widthSeekbar);
+    //console.log(o);
+    progress.style.width = `${(100 * o) / widthSeekbar}%`;
+    video.pause();
+    video.currentTime = video.duration * (o / widthSeekbar);
+    video.play();
+}
 
+video.ontimeupdate = progressUpdate;
+seekContainer.addEventListener('click', videoRewind);
