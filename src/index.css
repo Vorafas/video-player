@@ -17,7 +17,7 @@ body,div,dl,fieldset,form,h1,h2,h3,h4,h5,h6,html,img,ol,p,pre,ul{margin:0;paddin
     background-color: rgba(0,0,0,0.6);
     width: 100%;
     box-sizing: border-box;
-    padding: 5px 0 25px 0;
+    padding: 5px 40px 25px 40px;
     position: absolute;
     right: 0;
     left: 0;
@@ -34,14 +34,16 @@ body,div,dl,fieldset,form,h1,h2,h3,h4,h5,h6,html,img,ol,p,pre,ul{margin:0;paddin
 
 #seek-container{
     width: 100%;
+    position: relative;
     display: flex;
+    justify-content: space-between;
     overflow: auto;
     overflow-y: hidden;
     overflow-x: hidden;
 }
 
-#seekbar{
-    width: 100%;
+.seekbar{
+    width: 86%;
     height: 8px;
     margin-top: 16px;
     background: #343c45;
@@ -56,13 +58,24 @@ body,div,dl,fieldset,form,h1,h2,h3,h4,h5,h6,html,img,ol,p,pre,ul{margin:0;paddin
     justify-content: center;
 }
 
-#seekbar-play{
+.seekbar-play{
     position: absolute;
     left: 0px;
     top: 0px;
     width: 0%;
     height: 8px;
     background: #fff;
+}
+
+.time-current, .time-duration{
+    width: 7%;
+    color: #fff;
+    font-size: 16px;
+    padding-top: 8px;
+}
+
+.time-duration p{
+    float: right;
 }
 
 .unselectable {

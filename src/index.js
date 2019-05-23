@@ -4,8 +4,10 @@ import './index.css';
 
 const video = document.querySelector('#video-player');
 const playBtn = document.querySelector('#play-btn');
-const progress = document.querySelector('#seekbar-play');
-const seekContainer = document.querySelector('#seek-container');
+const progress = document.querySelector('.seekbar-play');
+const seekContainer = document.querySelector('.seekbar');
+const timeDuration = document.querySelector('.time-duration p');
+const timeCurrent = document.querySelector('.time-current');
 
 const url = "http://dash.edgesuite.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd";
 const player = dashjs.MediaPlayer().create();
@@ -21,9 +23,20 @@ if(video !== undefined){
         console.log('Autoplay was prevented', error);
     });
 }
+
+const format = function(duration, currentTime){
+    const durationMinutes = Math.floor(duration / 60);
+    const durationSeconds = Math.floor(duration % 60);
+    const currentMinutes = Math.floor(currentTime / 60);
+    const currentSeconds = Math.floor(currentTime % 60);
+    timeCurrent.textContent = `${currentMinutes > 9 ? currentMinutes : '0'+ currentMinutes}:${currentSeconds > 9 ? currentSeconds : '0' + currentSeconds}`;
+    timeDuration.textContent = `${durationMinutes > 9 ? durationMinutes : '0' + durationMinutes}:${durationSeconds > 9 ? durationSeconds : '0' + durationSeconds}`;
+}
+
 const progressUpdate = function(){
-    // console.log(video.duration);
+    //console.log(video.duration);
     // console.log(video.currentTime);
+    format(video.duration, video.currentTime);
     let d = video.duration;
     let c = video.currentTime;
     progress.style.width = `${(100 * c) / d}%`; 
