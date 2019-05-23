@@ -24,6 +24,16 @@ if(video !== undefined){
     });
 }
 
+const togglePlayer = function(){
+    if(video.paused){
+        video.play();
+        playBtn.querySelector('.icon-btn').innerHTML = `<i class="fas fa-pause"></i>`;
+    }else{
+        video.pause();
+        playBtn.querySelector('.icon-btn').innerHTML = `<i class="fas fa-play"></i>`;
+    }
+}
+
 const format = function(duration, currentTime){
     const durationMinutes = Math.floor(duration / 60);
     const durationSeconds = Math.floor(duration % 60);
@@ -55,3 +65,4 @@ const videoRewind = function(evt){
 
 video.ontimeupdate = progressUpdate;
 seekContainer.addEventListener('click', videoRewind);
+playBtn.addEventListener('click', togglePlayer);
