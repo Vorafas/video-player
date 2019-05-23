@@ -43,6 +43,17 @@ const format = function(duration, currentTime){
     timeDuration.textContent = `${durationMinutes > 9 ? durationMinutes : '0' + durationMinutes}:${durationSeconds > 9 ? durationSeconds : '0' + durationSeconds}`;
 }
 
+const checkPlayer = function(){
+    if(video.paused){
+        video.pause();
+        playBtn.querySelector('.icon-btn').innerHTML = `<i class="fas fa-play"></i>`;
+        
+    }else{
+        video.play();
+        playBtn.querySelector('.icon-btn').innerHTML = `<i class="fas fa-pause"></i>`;
+    }
+}
+
 const progressUpdate = function(){
     //console.log(video.duration);
     // console.log(video.currentTime);
@@ -61,6 +72,7 @@ const videoRewind = function(evt){
     video.pause();
     video.currentTime = video.duration * (o / widthSeekbar);
     video.play();
+    checkPlayer();
 }
 
 video.ontimeupdate = progressUpdate;
