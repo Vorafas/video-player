@@ -30,6 +30,7 @@ body,div,dl,fieldset,form,h1,h2,h3,h4,h5,h6,html,img,ol,p,pre,ul{margin:0;paddin
     text-shadow: none;
     -webkit-font-smoothing: antialiased;
     margin: 0 10px;
+    cursor: pointer;
 }
 
 #seek-container{
@@ -49,6 +50,7 @@ body,div,dl,fieldset,form,h1,h2,h3,h4,h5,h6,html,img,ol,p,pre,ul{margin:0;paddin
     background: #343c45;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
 }
 
 #settings-menu{
