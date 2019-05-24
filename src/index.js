@@ -1,5 +1,5 @@
 import dashjs from 'dashjs';
-import { checkPlayer, togglePlayer, progressUpdate, rewindPlayer } from './lib';
+import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind } from './lib';
 import './index.css';
 
 const video = document.querySelector('#video-player');
@@ -50,8 +50,9 @@ playBtn.addEventListener('click', () => {
 video.addEventListener('click', () => {
     togglePlayer(video, playBtn);
 });
-forwardBtn.addEventListener('click', () => {
-    rewindPlayer(video, progress, playBtn);
+backwardBtn.addEventListener('click', () => {
+    backwardRewind(video, progress, playBtn);
 });
-
-export default video;
+forwardBtn.addEventListener('click', () => {
+    forwardRewind(video, progress, playBtn);
+});

@@ -43,13 +43,12 @@ body,div,dl,fieldset,form,h1,h2,h3,h4,h5,h6,html,img,ol,p,pre,ul{margin:0;paddin
     overflow-x: hidden;
 }
 
-.seekbar{
-    width: 86%;
+.seekbar {
+    width: 80%;
     height: 8px;
     margin-top: 16px;
     background: #343c45;
     position: relative;
-    overflow: hidden;
     cursor: pointer;
 }
 
@@ -69,8 +68,20 @@ body,div,dl,fieldset,form,h1,h2,h3,h4,h5,h6,html,img,ol,p,pre,ul{margin:0;paddin
     background: #fff;
 }
 
+.seekbar-play:after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: -5px;
+    display: block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+}
+
 .time-current, .time-duration{
-    width: 7%;
+    width: 10%;
     color: #fff;
     font-size: 16px;
     padding-top: 8px;

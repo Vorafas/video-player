@@ -12,16 +12,14 @@ const checkPlayer = function(video, playBtn){
     }
 }
 
-const rewindPlayer = function(video, progress, playBtn){
+const forwardRewind = function(video, progress, playBtn){
     const forward = (video.duration / 100) * 15;
     if((video.currentTime + forward) >= video.duration){
         if(video.currentTime === video.duration)
             return;
         progress.style.width = `100%`;
         video.pause();
-        video.currentTime = video.duration; 
-        playBtn.querySelector('.icon-btn').innerHTML = pauseIcon;
-        checkPlayer(video, playBtn);
+        video.currentTime = video.duration;
     }else{
         if(video.paused){
             progress.style.width += 15;
@@ -32,8 +30,31 @@ const rewindPlayer = function(video, progress, playBtn){
             video.currentTime += forward;
             video.play();
         }
-        checkPlayer(video, playBtn);
     }
+    checkPlayer(video, playBtn);
+}
+
+const backwardRewind = function(video, progress, playBtn){
+    const forward = (video.duration / 100) * 15;
+    if((video.currentTime - forward) <= 0){
+        progress.style.width = `0%`;
+        video.pause();
+        video.currentTime = 0;
+        if(!video.paused){
+            video.play();
+        }
+    }else{
+        if(video.paused){
+            progress.style.width -= 15;
+            video.currentTime -= forward;
+        }else{
+            progress.style.width -= 15;
+            video.pause();
+            video.currentTime -= forward;
+            video.play();
+        }
+    }
+    checkPlayer(video, playBtn);
 }
 
 const togglePlayer = function(video, playBtn){
@@ -60,7 +81,7 @@ const progressUpdate = function(video, timeCurrent, timeDuration, progress, play
     let d = video.duration;
     let c = video.currentTime;
     progress.style.width = `${(100 * c) / d}%`;
-    checkPlayer(video, playBtn);
+    //checkPlayer(video, playBtn);
 }
 
-export { checkPlayer, togglePlayer, progressUpdate, rewindPlayer};
+export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind};
