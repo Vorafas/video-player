@@ -68,12 +68,16 @@ const togglePlayer = function(video, playBtn){
 }
 
 const format = function(video, timeCurrent, timeDuration){
-    const durationMinutes = Math.floor(video.duration / 60);
+    const durationHours = Math.floor(video.duration / 3600  % 24);
     const durationSeconds = Math.floor(video.duration % 60);
-    const currentMinutes = Math.floor(video.currentTime / 60);
+    const durationMinutes = Math.floor(video.duration / 60 % 60);
+
+    const currentHours = Math.floor(video.currentTime / 3600  % 24);
+    const currentMinutes = Math.floor(video.currentTime / 60 % 60);
     const currentSeconds = Math.floor(video.currentTime % 60);
-    timeCurrent.textContent = `${currentMinutes > 9 ? currentMinutes : '0'+ currentMinutes}:${currentSeconds > 9 ? currentSeconds : '0' + currentSeconds}`;
-    timeDuration.textContent = `${durationMinutes > 9 ? durationMinutes : '0' + durationMinutes}:${durationSeconds > 9 ? durationSeconds : '0' + durationSeconds}`;
+    
+    timeCurrent.textContent = `${currentHours === 0 ? '' : currentHours > 9 ? currentHours : '0'+ currentHours+':'}${currentMinutes > 9 ? currentMinutes : '0'+ currentMinutes}:${currentSeconds > 9 ? currentSeconds : '0' + currentSeconds}`;
+    timeDuration.textContent = `${durationHours === 0 ? '' : durationHours > 9 ? durationHours : '0'+ durationHours+':'}${durationMinutes > 9 ? durationMinutes : '0' + durationMinutes}:${durationSeconds > 9 ? durationSeconds : '0' + durationSeconds}`;
 }
 
 const progressUpdate = function(video, timeCurrent, timeDuration, progress, playBtn){

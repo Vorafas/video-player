@@ -11,7 +11,7 @@ const timeCurrent = document.querySelector('.time-current');
 const backwardBtn = document.querySelector('.backward-btn');
 const forwardBtn = document.querySelector('.forward-btn');
 
-const url = "http://demo.unified-streaming.com/video/ateam/ateam.ism/ateam.mpd";
+const url = "http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1//client_manifest-events.mpd";
 const player = dashjs.MediaPlayer().create();
 player.initialize(video, url, true);
 
