@@ -9,7 +9,7 @@
 <body>
     <div class="video-container">
         <video id="video-player" muted="muted"></video>
-        <div id="video-controller">
+        <div id="video-controller" class="unselectable">
             <div id="seek-container">
                 <div class="time-current"><p>00:00</p></div>
                 <div class="seekbar">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="time-duration"><p>00:00</p></div>
             </div>
-            <div id="settings-menu">
+            <div id="video-controls">
                 <div class="prev-btn">
                     <span class="icon-btn">
                         <i class="fas fa-fast-backward"></i>
@@ -44,7 +44,16 @@
                     </span>
                 </div>
             </div>
-            
+            <div id="settings-menu">
+                <div class="menu-item">
+                    <span class="menu-item-bg"></span>
+                    <p class="menu-item-text">переключить качество</p>
+                </div>
+                <div class="menu-item">
+                    <span class="menu-item-bg"></span>
+                    <p class="menu-item-text">назад</p>
+                </div>
+            </div>
         </div>
     </div>
 </body>

@@ -14,11 +14,12 @@ const forwardBtn = document.querySelector('.forward-btn');
 const url = "http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1//client_manifest-events.mpd";
 const player = dashjs.MediaPlayer().create();
 player.initialize(video, url, true);
+player.setAutoSwitchQualityFor('video', false);
+player.setInitialBitrateFor("video", 0); 
 
-if(video !== undefined){
+if(video.play() !== undefined){
     video.play().then(_ => { /* Autoplay started! */
-        video.removeAttribute('muted');
-        playBtn.querySelector('.icon-btn').innerHTML = `<i class="fas fa-pause"></i>`;
+        checkPlayer(video, playBtn);
     }).catch(error => { /* Autoplay was prevented */
         console.log('Autoplay was prevented', error);
     });
@@ -40,9 +41,6 @@ const videoRewind = function(evt){
     checkPlayer(video, playBtn);
 }
 
-video.ontimeupdate = () => {
-    progressUpdate(video, timeCurrent, timeDuration, progress, playBtn);
-};
 seekContainer.addEventListener('click', videoRewind);
 playBtn.addEventListener('click', () => {
     togglePlayer(video, playBtn);
@@ -50,6 +48,9 @@ playBtn.addEventListener('click', () => {
 video.addEventListener('click', () => {
     togglePlayer(video, playBtn);
 });
+video.ontimeupdate = () => {
+    progressUpdate(video, timeCurrent, timeDuration, progress, playBtn);
+};
 backwardBtn.addEventListener('click', () => {
     backwardRewind(video, progress, playBtn);
 });
