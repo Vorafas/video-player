@@ -1,5 +1,5 @@
 import dashjs from 'dashjs';
-import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind } from './lib';
+import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo } from './lib';
 import './index.css';
 
 const video = document.querySelector('#video-player');
@@ -10,13 +10,13 @@ const timeDuration = document.querySelector('.time-duration p');
 const timeCurrent = document.querySelector('.time-current');
 const backwardBtn = document.querySelector('.backward-btn');
 const forwardBtn = document.querySelector('.forward-btn');
+const closeBtn = document.querySelector('.close-button');
+const settingsQuality = document.querySelector('.settings-quality');
+const videoContainer = document.querySelector('#video-container');
 
 const url = "http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1//client_manifest-events.mpd";
 const player = dashjs.MediaPlayer().create();
 player.initialize(video, url, true);
-player.setAutoSwitchQualityFor('video', false);
-player.setInitialBitrateFor("video", 0); 
-
 if(video.play() !== undefined){
     video.play().then(_ => { /* Autoplay started! */
         checkPlayer(video, playBtn);
@@ -24,7 +24,6 @@ if(video.play() !== undefined){
         console.log('Autoplay was prevented', error);
     });
 }
-
 const videoRewind = function(evt){
     const widthSeekbar = this.offsetWidth;
     const o = evt.offsetX;
@@ -40,7 +39,10 @@ const videoRewind = function(evt){
     }
     checkPlayer(video, playBtn);
 }
-
+player.on("streamInitialized", function () {
+    const bitrates = player.getBitrateInfoListFor("video");
+    console.log('My bitrate:' + bitrates.length);
+});
 seekContainer.addEventListener('click', videoRewind);
 playBtn.addEventListener('click', () => {
     togglePlayer(video, playBtn);
@@ -48,8 +50,15 @@ playBtn.addEventListener('click', () => {
 video.addEventListener('click', () => {
     togglePlayer(video, playBtn);
 });
+closeBtn.addEventListener('click', () => {
+    closeVideo(video, playBtn, videoContainer);
+});
+document.addEventListener('keydown', (evt) => {
+    if(evt.keyCode == 82)
+        closeVideo(video, playBtn, videoContainer);
+});
 video.ontimeupdate = () => {
-    progressUpdate(video, timeCurrent, timeDuration, progress, playBtn);
+    progressUpdate(video, timeCurrent, timeDuration, progress);
 };
 backwardBtn.addEventListener('click', () => {
     backwardRewind(video, progress, playBtn);

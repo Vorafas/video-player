@@ -34,6 +34,13 @@ const forwardRewind = function(video, progress, playBtn){
     checkPlayer(video, playBtn);
 }
 
+const closeVideo = function(video, playBtn, videoContainer){
+    video.pause();
+    checkPlayer(video, playBtn);
+    console.log(videoContainer);
+    videoContainer.classList.toggle('hide-container');
+}
+
 const backwardRewind = function(video, progress, playBtn){
     const forward = (video.duration / 100) * 15;
     if((video.currentTime - forward) <= 0){
@@ -68,24 +75,27 @@ const togglePlayer = function(video, playBtn){
 }
 
 const format = function(video, timeCurrent, timeDuration){
-    const durationHours = Math.floor(video.duration / 3600  % 24);
-    const durationSeconds = Math.floor(video.duration % 60);
-    const durationMinutes = Math.floor(video.duration / 60 % 60);
+    let durationHours = Math.floor(video.duration / 3600  % 24);
+    let durationSeconds = Math.floor(video.duration % 60);
+    let durationMinutes = Math.floor(video.duration / 60 % 60);
 
-    const currentHours = Math.floor(video.currentTime / 3600  % 24);
-    const currentMinutes = Math.floor(video.currentTime / 60 % 60);
-    const currentSeconds = Math.floor(video.currentTime % 60);
-    
+    let currentHours = Math.floor(video.currentTime / 3600  % 24);
+    let currentMinutes = Math.floor(video.currentTime / 60 % 60);
+    let currentSeconds = Math.floor(video.currentTime % 60);
+
+    durationHours = isNaN(durationHours) ? 0 : durationHours;
+    durationSeconds = isNaN(durationSeconds) ? 0 : durationSeconds;
+    durationMinutes = isNaN(durationMinutes) ? 0 : durationMinutes;
+
     timeCurrent.textContent = `${currentHours === 0 ? '' : currentHours > 9 ? currentHours : '0'+ currentHours+':'}${currentMinutes > 9 ? currentMinutes : '0'+ currentMinutes}:${currentSeconds > 9 ? currentSeconds : '0' + currentSeconds}`;
     timeDuration.textContent = `${durationHours === 0 ? '' : durationHours > 9 ? durationHours : '0'+ durationHours+':'}${durationMinutes > 9 ? durationMinutes : '0' + durationMinutes}:${durationSeconds > 9 ? durationSeconds : '0' + durationSeconds}`;
 }
 
-const progressUpdate = function(video, timeCurrent, timeDuration, progress, playBtn){
+const progressUpdate = function(video, timeCurrent, timeDuration, progress){
     format(video, timeCurrent, timeDuration);
     let d = video.duration;
     let c = video.currentTime;
     progress.style.width = `${(100 * c) / d}%`;
-    //checkPlayer(video, playBtn);
 }
 
-export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind};
+export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo};
