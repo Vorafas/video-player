@@ -1,5 +1,5 @@
 import dashjs from 'dashjs';
-import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo } from './lib';
+import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo } from './lib';
 import './index.css';
 
 const video = document.querySelector('#video-player');
@@ -13,6 +13,7 @@ const forwardBtn = document.querySelector('.forward-btn');
 const closeBtn = document.querySelector('.close-button');
 const settingsQuality = document.querySelector('.settings-quality');
 const videoContainer = document.querySelector('#video-container');
+const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
 
 const url = "http://demo.unified-streaming.com/video/ateam/ateam.ism/ateam.mpd";
@@ -57,6 +58,9 @@ closeBtn.addEventListener('click', () => {
 document.addEventListener('keydown', (evt) => {
     if(evt.keyCode == 82)
         closeVideo(video, playBtn, videoContainer);
+});
+prevBtn.addEventListener('click', () => {
+    prevVideo(video, progress, player, playBtn);
 });
 nextBtn.addEventListener('click', () => {
     nextVideo(video, progress, player, playBtn);

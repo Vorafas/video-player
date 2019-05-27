@@ -17,6 +17,22 @@ const checkPlayer = function(video, playBtn){
 const nextVideo = function(video, progress, player, playBtn){
     index++;
     if(index >= dummyData.length){
+        index = dummyData.length - 1;
+        return;
+    }
+    video.pause();
+    video.currentTime = 0;
+    progress.style.width = 0;
+    player.attachSource(dummyData[index].url);
+    video.play().then(_ => {
+        checkPlayer(video, playBtn); 
+    });
+}
+
+const prevVideo = function(video, progress, player, playBtn){
+    index--;
+    if(index < 0){
+        index = 0;
         return;
     }
     video.pause();
@@ -114,4 +130,4 @@ const progressUpdate = function(video, timeCurrent, timeDuration, progress){
     progress.style.width = `${(100 * c) / d}%`;
 }
 
-export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo};
+export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo};
