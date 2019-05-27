@@ -1,6 +1,8 @@
+import dashjs from 'dashjs';
+import dummyData from './dummy-data';
 const playIcon =  `<i class="fas fa-play"></i>`;
 const pauseIcon = `<i class="fas fa-pause"></i>`;
-
+let index = 0;
 const checkPlayer = function(video, playBtn){
     if(video.paused){
         video.pause();
@@ -10,6 +12,20 @@ const checkPlayer = function(video, playBtn){
         video.play();
         playBtn.querySelector('.icon-btn').innerHTML = pauseIcon;
     }
+}
+
+const nextVideo = function(video, progress, player, playBtn){
+    index++;
+    if(index >= dummyData.length){
+        return;
+    }
+    video.pause();
+    video.currentTime = 0;
+    progress.style.width = 0;
+    player.attachSource(dummyData[index].url);
+    video.play().then(_ => {
+        checkPlayer(video, playBtn); 
+    });
 }
 
 const forwardRewind = function(video, progress, playBtn){
@@ -98,4 +114,4 @@ const progressUpdate = function(video, timeCurrent, timeDuration, progress){
     progress.style.width = `${(100 * c) / d}%`;
 }
 
-export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo};
+export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo};

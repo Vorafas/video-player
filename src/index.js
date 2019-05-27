@@ -1,5 +1,5 @@
 import dashjs from 'dashjs';
-import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo } from './lib';
+import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo } from './lib';
 import './index.css';
 
 const video = document.querySelector('#video-player');
@@ -15,7 +15,7 @@ const settingsQuality = document.querySelector('.settings-quality');
 const videoContainer = document.querySelector('#video-container');
 const nextBtn = document.querySelector('.next-btn');
 
-const url = "http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1//client_manifest-events.mpd";
+const url = "http://demo.unified-streaming.com/video/ateam/ateam.ism/ateam.mpd";
 const player = dashjs.MediaPlayer().create();
 player.initialize(video, url, true);
 if(video.play() !== undefined){
@@ -59,9 +59,7 @@ document.addEventListener('keydown', (evt) => {
         closeVideo(video, playBtn, videoContainer);
 });
 nextBtn.addEventListener('click', () => {
-    video.pause();
-    const url = "http://dash.edgesuite.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd";
-    player.attachSource(url);
+    nextVideo(video, progress, player, playBtn);
 });
 video.ontimeupdate = () => {
     progressUpdate(video, timeCurrent, timeDuration, progress);
