@@ -1,8 +1,21 @@
 import dashjs from 'dashjs';
 import dummyData from './dummy-data';
+
 const playIcon =  `<i class="fas fa-play"></i>`;
 const pauseIcon = `<i class="fas fa-pause"></i>`;
 let index = 0;
+
+const videoInit = function(player, video, playBtn){
+    player.initialize(video, dummyData[index].url, true);
+    if(video.play() !== undefined){
+        video.play().then(_ => { /* Autoplay started! */
+            checkPlayer(video, playBtn);
+        }).catch(error => { /* Autoplay was prevented */
+            console.log('Autoplay was prevented', error);
+        });
+    }
+}
+
 const checkPlayer = function(video, playBtn){
     if(video.paused){
         video.pause();
@@ -130,4 +143,4 @@ const progressUpdate = function(video, timeCurrent, timeDuration, progress){
     progress.style.width = `${(100 * c) / d}%`;
 }
 
-export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo};
+export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit};

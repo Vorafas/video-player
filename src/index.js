@@ -1,5 +1,5 @@
 import dashjs from 'dashjs';
-import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo } from './lib';
+import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit } from './lib';
 import './index.css';
 
 const video = document.querySelector('#video-player');
@@ -13,19 +13,13 @@ const forwardBtn = document.querySelector('.forward-btn');
 const closeBtn = document.querySelector('.close-button');
 const settingsQuality = document.querySelector('.settings-quality');
 const videoContainer = document.querySelector('#video-container');
+const currentVideoTitle = document.querySelector('.current-video-title p');
+const nextVideoTitle = document.querySelector('.next-video-title p');
 const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
 
-const url = "http://demo.unified-streaming.com/video/ateam/ateam.ism/ateam.mpd";
 const player = dashjs.MediaPlayer().create();
-player.initialize(video, url, true);
-if(video.play() !== undefined){
-    video.play().then(_ => { /* Autoplay started! */
-        checkPlayer(video, playBtn);
-    }).catch(error => { /* Autoplay was prevented */
-        console.log('Autoplay was prevented', error);
-    });
-}
+videoInit(player, video, playBtn);
 const videoRewind = function(evt){
     const widthSeekbar = this.offsetWidth;
     const o = evt.offsetX;
