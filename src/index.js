@@ -1,5 +1,5 @@
 import dashjs from 'dashjs';
-import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit, videoRewind } from './lib';
+import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit, videoRewind, removeClass, addClass } from './lib';
 import './index.css';
 
 const video = document.querySelector('#video-player'),
@@ -38,7 +38,6 @@ const checkState = function(){
         idleState = true; 
     }, idleWait);
 }
-
 const nextFocus = function(){
     ++index;
     if(index > btnFocus.length - 1){
@@ -70,19 +69,15 @@ document.addEventListener('keydown', (evt) => {
     if(evt.keyCode === 9 && evt.keyCode === 16)
         evt.preventDefault();
     if(evt.keyCode === 39){
-        videoDescription.classList.remove('hide');
-        videoController.classList.remove('hide');
+        removeClass(videoDescription, videoController);
         nextFocus();
     }
     if(evt.keyCode === 37){
-        videoDescription.classList.remove('hide');
-        videoController.classList.remove('hide');
+        removeClass(videoDescription, videoController);
         prevFocus();
     }
-    if(evt.keyCode === 8){
-        videoDescription.classList.add('hide');
-        videoController.classList.add('hide');
-    }
+    if(evt.keyCode === 8)
+        addClass(videoDescription, videoController);
 });
 prevBtn.addEventListener('click', () => {
     prevVideo(video, player, currentTitle, nextTitle);

@@ -20,6 +20,16 @@ const videoInit = function(player, video, currentTitle, nextTitle){
     }
 }
 
+const removeClass = function (videoDescription, videoController){
+    videoDescription.classList.remove('hide');
+    videoController.classList.remove('hide');
+}
+
+const addClass = function (videoDescription, videoController){
+    videoDescription.classList.add('hide');
+    videoController.classList.add('hide');
+}
+
 const videoRewind = function(seekContainer, video, progress, evt){
     const widthSeekbar = seekContainer.offsetWidth;
     const o = evt.offsetX;
@@ -172,4 +182,4 @@ const progressUpdate = function(video, timeCurrent, timeDuration, progress, play
     }
 }
 
-export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit, videoRewind };
+export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit, videoRewind, removeClass, addClass };
