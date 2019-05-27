@@ -13,6 +13,7 @@ const forwardBtn = document.querySelector('.forward-btn');
 const closeBtn = document.querySelector('.close-button');
 const settingsQuality = document.querySelector('.settings-quality');
 const videoContainer = document.querySelector('#video-container');
+const nextBtn = document.querySelector('.next-btn');
 
 const url = "http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1//client_manifest-events.mpd";
 const player = dashjs.MediaPlayer().create();
@@ -56,6 +57,11 @@ closeBtn.addEventListener('click', () => {
 document.addEventListener('keydown', (evt) => {
     if(evt.keyCode == 82)
         closeVideo(video, playBtn, videoContainer);
+});
+nextBtn.addEventListener('click', () => {
+    video.pause();
+    const url = "http://dash.edgesuite.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd";
+    player.attachSource(url);
 });
 video.ontimeupdate = () => {
     progressUpdate(video, timeCurrent, timeDuration, progress);
