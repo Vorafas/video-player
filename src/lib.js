@@ -3,10 +3,14 @@ import dummyData from './dummy-data';
 
 const playIcon =  `<i class="fas fa-play"></i>`;
 const pauseIcon = `<i class="fas fa-pause"></i>`;
+const playBtn = document.querySelector('.play-btn');
 let index = 0;
 
-const videoInit = function(player, video, playBtn){
+const videoInit = function(player, video, currentTitle, nextTitle){
     player.initialize(video, dummyData[index].url, true);
+    player.setAutoSwitchQualityFor("video", false);  
+    currentTitle.querySelector('.current-video-title p').textContent = dummyData[index].title;
+    nextTitle.querySelector('.next-video-title p').textContent = dummyData[index + 1].title;
     if(video.play() !== undefined){
         video.play().then(_ => { /* Autoplay started! */
             checkPlayer(video, playBtn);
@@ -16,7 +20,23 @@ const videoInit = function(player, video, playBtn){
     }
 }
 
-const checkPlayer = function(video, playBtn){
+const videoRewind = function(seekContainer, video, progress, evt){
+    const widthSeekbar = seekContainer.offsetWidth;
+    const o = evt.offsetX;
+    if(video.paused){
+        progress.style.width = `${(100 * o) / widthSeekbar}%`;
+        video.pause();
+        video.currentTime = video.duration * (o / widthSeekbar);
+    }else{
+        progress.style.width = `${(100 * o) / widthSeekbar}%`;
+        video.pause();
+        video.currentTime = video.duration * (o / widthSeekbar);
+        video.play();
+    }
+    checkPlayer(video);
+}
+
+const checkPlayer = function(video){
     if(video.paused){
         video.pause();
         playBtn.querySelector('.icon-btn').innerHTML = playIcon;
@@ -27,7 +47,7 @@ const checkPlayer = function(video, playBtn){
     }
 }
 
-const forwardRewind = function(video, progress, playBtn){
+const forwardRewind = function(video, progress){
     const forward = (video.duration / 100) * 15;
     if((video.currentTime + forward) >= video.duration){
         if(video.currentTime === video.duration)
@@ -46,17 +66,16 @@ const forwardRewind = function(video, progress, playBtn){
             video.play();
         }
     }
-    checkPlayer(video, playBtn);
+    checkPlayer(video);
 }
 
-const closeVideo = function(video, playBtn, videoContainer){
+const closeVideo = function(video, videoContainer){
     video.pause();
-    checkPlayer(video, playBtn);
-    console.log(videoContainer);
+    checkPlayer(video);
     videoContainer.classList.toggle('hide-container');
 }
 
-const nextVideo = function(video, player, playBtn, currentTitle, nextTitle){
+const nextVideo = function(video, player, currentTitle, nextTitle){
     index++;
     if(index >= dummyData.length){
         index = dummyData.length - 1;
@@ -71,10 +90,10 @@ const nextVideo = function(video, player, playBtn, currentTitle, nextTitle){
         nextTitle.querySelector('.next-video-title p').textContent = dummyData[index + 1].title;
     }
     else nextTitle.classList.add('hide');
-    video.play().then(_ => checkPlayer(video, playBtn));
+    video.play().then(_ => checkPlayer(video));
 }
 
-const prevVideo = function(video, player, playBtn, currentTitle, nextTitle){
+const prevVideo = function(video, player, currentTitle, nextTitle){
     index--;
     if(index < 0){
         index = 0;
@@ -88,10 +107,10 @@ const prevVideo = function(video, player, playBtn, currentTitle, nextTitle){
         nextTitle.classList.remove('hide');
         nextTitle.querySelector('.next-video-title p').textContent = dummyData[index + 1].title;
     }
-    video.play().then(_ => checkPlayer(video, playBtn));
+    video.play().then(_ => checkPlayer(video));
 }
 
-const backwardRewind = function(video, progress, playBtn){
+const backwardRewind = function(video, progress){
     const forward = (video.duration / 100) * 15;
     if((video.currentTime - forward) <= 0){
         progress.style.width = `0%`;
@@ -111,10 +130,10 @@ const backwardRewind = function(video, progress, playBtn){
             video.play();
         }
     }
-    checkPlayer(video, playBtn);
+    checkPlayer(video);
 }
 
-const togglePlayer = function(video, playBtn){
+const togglePlayer = function(video){
     if(video.paused){
         video.play();
         playBtn.querySelector('.icon-btn').innerHTML = pauseIcon;
@@ -141,11 +160,16 @@ const format = function(video, timeCurrent, timeDuration){
     timeDuration.textContent = `${durationHours === 0 ? '' : durationHours > 9 ? durationHours : '0'+ durationHours+':'}${durationMinutes > 9 ? durationMinutes : '0' + durationMinutes}:${durationSeconds > 9 ? durationSeconds : '0' + durationSeconds}`;
 }
 
-const progressUpdate = function(video, timeCurrent, timeDuration, progress){
-    format(video, timeCurrent, timeDuration);
-    let d = video.duration;
-    let c = video.currentTime;
-    progress.style.width = `${(100 * c) / d}%`;
+const progressUpdate = function(video, timeCurrent, timeDuration, progress, player, currentTitle, nextTitle){
+    if(video.currentTime === video.duration){
+        nextVideo(video, player, currentTitle, nextTitle);
+        checkPlayer(video);
+    }else{
+        format(video, timeCurrent, timeDuration);
+        let d = video.duration;
+        let c = video.currentTime;
+        progress.style.width = `${(100 * c) / d}%`;
+    }
 }
 
-export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit};
+export { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit, videoRewind };

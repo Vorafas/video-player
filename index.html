@@ -9,36 +9,36 @@
 <body>
     <div id="video-container">
         <video id="video-player" muted="muted"></video>
-        <div id="video-controller" class="unselectable">
-            <div id="seek-container">
+        <div class="video-controller unselectable">
+            <div class="seek-container">
                 <div class="time-current"><p>00:00</p></div>
                 <div class="seekbar">
-                    <div class="seekbar-play"></div>
+                    <div class="seekbar-play" tabindex="6"></div>
                 </div>
                 <div class="time-duration"><p>00:00</p></div>
             </div>
-            <div id="video-controls">
-                <div class="prev-btn">
+            <div class="video-controls">
+                <div class="prev-btn btn-focus" tabindex="2">
                     <span class="icon-btn">
                         <i class="fas fa-fast-backward"></i>
                     </span>
                 </div>
-                <div class="backward-btn">
+                <div class="backward-btn btn-focus" tabindex="3">
                     <span class="icon-btn">
                         <i class="fas fa-backward"></i>
                     </span>
                 </div>
-                <div class="play-btn">
+                <div class="play-btn btn-focus" tabindex="3">
                     <span class="icon-btn">
                         <i class="fas fa-play"></i>
                     </span>
                 </div>
-                <div class="forward-btn">
+                <div class="forward-btn btn-focus" tabindex="4">
                     <span class="icon-btn">
                         <i class="fas fa-forward"></i>
                     </span>
                 </div>
-                <div class="next-btn">
+                <div class="next-btn btn-focus" tabindex="5">
                     <span class="icon-btn">
                         <i class="fas fa-fast-forward"></i>
                     </span>
@@ -55,13 +55,13 @@
                 </div>
             </div>
         </div>
-        <div id="video-description">
+        <div class="video-description">
             <div class="current-video">
                 <div class="current-video-text">
                     <p>Сейчас:</p>
                 </div>
                 <div class="current-video-title">
-                    <p>The A-Team</p>
+                    <p></p>
                 </div>
             </div>
             <div class="next-video">
@@ -69,7 +69,7 @@
                    <p>Далее:</p> 
                 </div>
                 <div class="next-video-title">
-                   <p>Big Buck Bunny</p> 
+                   <p></p> 
                 </div>
             </div>
         </div>

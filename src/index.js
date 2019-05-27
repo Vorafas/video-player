@@ -1,68 +1,104 @@
 import dashjs from 'dashjs';
-import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit } from './lib';
+import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit, videoRewind } from './lib';
 import './index.css';
 
-const video = document.querySelector('#video-player');
-const playBtn = document.querySelector('.play-btn');
-const progress = document.querySelector('.seekbar-play');
-const seekContainer = document.querySelector('.seekbar');
-const timeDuration = document.querySelector('.time-duration p');
-const timeCurrent = document.querySelector('.time-current');
-const backwardBtn = document.querySelector('.backward-btn');
-const forwardBtn = document.querySelector('.forward-btn');
-const closeBtn = document.querySelector('.close-button');
-const settingsQuality = document.querySelector('.settings-quality');
-const videoContainer = document.querySelector('#video-container');
-const currentTitle = document.querySelector('.current-video');
-const nextTitle = document.querySelector('.next-video');
-const prevBtn = document.querySelector('.prev-btn');
-const nextBtn = document.querySelector('.next-btn');
+const video = document.querySelector('#video-player'),
+videoController = document.querySelector('.video-controller'),
+videoDescription = document.querySelector('.video-description'),
+playBtn = document.querySelector('.play-btn'),
+progress = document.querySelector('.seekbar-play'),
+seekContainer = document.querySelector('.seekbar'),
+timeDuration = document.querySelector('.time-duration p'),
+timeCurrent = document.querySelector('.time-current'),
+backwardBtn = document.querySelector('.backward-btn'),
+forwardBtn = document.querySelector('.forward-btn'),
+closeBtn = document.querySelector('.close-button'),
+settingsQuality = document.querySelector('.settings-quality'),
+videoContainer = document.querySelector('.video-container'),
+currentTitle = document.querySelector('.current-video'),
+nextTitle = document.querySelector('.next-video'),
+prevBtn = document.querySelector('.prev-btn'),
+nextBtn = document.querySelector('.next-btn'),
+btnFocus = document.querySelectorAll('.btn-focus');
+let index = 0;
+let idleTimer = null;
+let idleState = false; // состояние отсутствия
+let idleWait = 10000; // время ожидания в мс. (1/1000 секунды)
+
 
 const player = dashjs.MediaPlayer().create();
-videoInit(player, video, playBtn);
+videoInit(player, video, currentTitle, nextTitle);
 
-const videoRewind = function(evt){
-    const widthSeekbar = this.offsetWidth;
-    const o = evt.offsetX;
-    if(video.paused){
-        progress.style.width = `${(100 * o) / widthSeekbar}%`;
-        video.pause();
-        video.currentTime = video.duration * (o / widthSeekbar);
-    }else{
-        progress.style.width = `${(100 * o) / widthSeekbar}%`;
-        video.pause();
-        video.currentTime = video.duration * (o / widthSeekbar);
-        video.play();
-    }
-    checkPlayer(video, playBtn);
+const checkState = function(){
+    clearTimeout(idleTimer); // отменяем прежний временной отрезок
+    idleState = false;
+    idleTimer = setTimeout(function(){ 
+        videoDescription.classList.add('hide');
+        videoController.classList.add('hide');
+        idleState = true; 
+    }, idleWait);
 }
 
-seekContainer.addEventListener('click', videoRewind);
-playBtn.addEventListener('click', () => {
-    togglePlayer(video, playBtn);
+const nextFocus = function(){
+    ++index;
+    if(index > btnFocus.length - 1){
+        index = 0;
+    }
+    btnFocus[index].focus();
+}
+const prevFocus = function(){
+    --index;
+    if(index < 0){
+        index = btnFocus.length - 1;
+    }
+    btnFocus[index].focus();
+}
+seekContainer.addEventListener('click', (evt) => {
+    videoRewind(seekContainer, video, progress, evt);
 });
-video.addEventListener('click', () => {
-    togglePlayer(video, playBtn);
+playBtn.addEventListener('click', () => {
+    togglePlayer(video);
 });
 closeBtn.addEventListener('click', () => {
-    closeVideo(video, playBtn, videoContainer);
+    closeVideo(video, videoContainer);
 });
 document.addEventListener('keydown', (evt) => {
-    if(evt.keyCode == 82)
-        closeVideo(video, playBtn, videoContainer);
+    if(evt.keyCode ===  82)
+        closeVideo(video, videoContainer);
+    if(evt.keyCode === 9)
+        evt.preventDefault();
+    if(evt.keyCode === 9 && evt.keyCode === 16)
+        evt.preventDefault();
+    if(evt.keyCode === 39){
+        videoDescription.classList.remove('hide');
+        videoController.classList.remove('hide');
+        nextFocus();
+    }
+    if(evt.keyCode === 37){
+        videoDescription.classList.remove('hide');
+        videoController.classList.remove('hide');
+        prevFocus();
+    }
+    if(evt.keyCode === 8){
+        videoDescription.classList.add('hide');
+        videoController.classList.add('hide');
+    }
 });
 prevBtn.addEventListener('click', () => {
-    prevVideo(video, player, playBtn, currentTitle, nextTitle);
+    prevVideo(video, player, currentTitle, nextTitle);
 });
 nextBtn.addEventListener('click', () => {
-    nextVideo(video, player, playBtn, currentTitle, nextTitle);
+    nextVideo(video, player, currentTitle, nextTitle);
 });
 video.ontimeupdate = () => {
-    progressUpdate(video, timeCurrent, timeDuration, progress);
+    progressUpdate(video, timeCurrent, timeDuration, progress, player, currentTitle, nextTitle);
 };
 backwardBtn.addEventListener('click', () => {
-    backwardRewind(video, progress, playBtn);
+    backwardRewind(video, progress);
 });
 forwardBtn.addEventListener('click', () => {
-    forwardRewind(video, progress, playBtn);
+    forwardRewind(video, progress);
 });
+document.addEventListener('mousemove', checkState);
+document.addEventListener('keydown', checkState);
+document.addEventListener('scroll', checkState);
