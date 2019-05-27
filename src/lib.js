@@ -27,36 +27,6 @@ const checkPlayer = function(video, playBtn){
     }
 }
 
-const nextVideo = function(video, progress, player, playBtn){
-    index++;
-    if(index >= dummyData.length){
-        index = dummyData.length - 1;
-        return;
-    }
-    video.pause();
-    video.currentTime = 0;
-    progress.style.width = 0;
-    player.attachSource(dummyData[index].url);
-    video.play().then(_ => {
-        checkPlayer(video, playBtn); 
-    });
-}
-
-const prevVideo = function(video, progress, player, playBtn){
-    index--;
-    if(index < 0){
-        index = 0;
-        return;
-    }
-    video.pause();
-    video.currentTime = 0;
-    progress.style.width = 0;
-    player.attachSource(dummyData[index].url);
-    video.play().then(_ => {
-        checkPlayer(video, playBtn); 
-    });
-}
-
 const forwardRewind = function(video, progress, playBtn){
     const forward = (video.duration / 100) * 15;
     if((video.currentTime + forward) >= video.duration){
@@ -84,6 +54,41 @@ const closeVideo = function(video, playBtn, videoContainer){
     checkPlayer(video, playBtn);
     console.log(videoContainer);
     videoContainer.classList.toggle('hide-container');
+}
+
+const nextVideo = function(video, player, playBtn, currentTitle, nextTitle){
+    index++;
+    if(index >= dummyData.length){
+        index = dummyData.length - 1;
+        return;
+    }
+    video.pause();
+    video.currentTime = 0;
+    player.attachSource(dummyData[index].url);
+    currentTitle.querySelector('.current-video-title p').textContent = dummyData[index].title;
+    if(dummyData[index + 1]){
+        nextTitle.classList.remove('hide');
+        nextTitle.querySelector('.next-video-title p').textContent = dummyData[index + 1].title;
+    }
+    else nextTitle.classList.add('hide');
+    video.play().then(_ => checkPlayer(video, playBtn));
+}
+
+const prevVideo = function(video, player, playBtn, currentTitle, nextTitle){
+    index--;
+    if(index < 0){
+        index = 0;
+        return;
+    }
+    video.pause();
+    video.currentTime = 0;
+    player.attachSource(dummyData[index].url);
+    currentTitle.querySelector('.current-video-title p').textContent = dummyData[index].title;
+    if(dummyData[index + 1]){
+        nextTitle.classList.remove('hide');
+        nextTitle.querySelector('.next-video-title p').textContent = dummyData[index + 1].title;
+    }
+    video.play().then(_ => checkPlayer(video, playBtn));
 }
 
 const backwardRewind = function(video, progress, playBtn){

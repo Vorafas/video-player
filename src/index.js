@@ -13,13 +13,14 @@ const forwardBtn = document.querySelector('.forward-btn');
 const closeBtn = document.querySelector('.close-button');
 const settingsQuality = document.querySelector('.settings-quality');
 const videoContainer = document.querySelector('#video-container');
-const currentVideoTitle = document.querySelector('.current-video-title p');
-const nextVideoTitle = document.querySelector('.next-video-title p');
+const currentTitle = document.querySelector('.current-video');
+const nextTitle = document.querySelector('.next-video');
 const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
 
 const player = dashjs.MediaPlayer().create();
 videoInit(player, video, playBtn);
+
 const videoRewind = function(evt){
     const widthSeekbar = this.offsetWidth;
     const o = evt.offsetX;
@@ -35,10 +36,7 @@ const videoRewind = function(evt){
     }
     checkPlayer(video, playBtn);
 }
-player.on("streamInitialized", function () {
-    const bitrates = player.getBitrateInfoListFor("video");
-    console.log('My bitrate:' + bitrates.length);
-});
+
 seekContainer.addEventListener('click', videoRewind);
 playBtn.addEventListener('click', () => {
     togglePlayer(video, playBtn);
@@ -54,10 +52,10 @@ document.addEventListener('keydown', (evt) => {
         closeVideo(video, playBtn, videoContainer);
 });
 prevBtn.addEventListener('click', () => {
-    prevVideo(video, progress, player, playBtn);
+    prevVideo(video, player, playBtn, currentTitle, nextTitle);
 });
 nextBtn.addEventListener('click', () => {
-    nextVideo(video, progress, player, playBtn);
+    nextVideo(video, player, playBtn, currentTitle, nextTitle);
 });
 video.ontimeupdate = () => {
     progressUpdate(video, timeCurrent, timeDuration, progress);
