@@ -7,17 +7,10 @@ const playBtn = document.querySelector('.play-btn');
 let index = 0;
 
 const videoInit = function(player, video, currentTitle, nextTitle){
-    player.initialize(video, dummyData[index].url, true);
-    player.setAutoSwitchQualityFor("video", false);  
+    player.initialize(video, dummyData[index].url, false);
+    //player.setAutoSwitchQualityFor("video", false);  
     currentTitle.querySelector('.current-video-title p').textContent = dummyData[index].title;
     nextTitle.querySelector('.next-video-title p').textContent = dummyData[index + 1].title;
-    if(video.play() !== undefined){
-        video.play().then(_ => { /* Autoplay started! */
-            checkPlayer(video, playBtn);
-        }).catch(error => { /* Autoplay was prevented */
-            console.log('Autoplay was prevented', error);
-        });
-    }
 }
 
 const removeClass = function (videoDescription, videoController){
