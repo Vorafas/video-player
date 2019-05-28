@@ -5,7 +5,9 @@ const KeyCode = Object.freeze({
     ARROW_UP: 38,
     ARROW_DOWN: 40,
     ENTER: 13,
-    BACKSPACE: 8
+    BACKSPACE: 8,
+    TAB: 9,
+    SHIFT: 16
 });
 
 export default KeyCode;

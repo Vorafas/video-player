@@ -1,5 +1,5 @@
 import dashjs from 'dashjs';
-import { checkPlayer, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit, videoRewind, removeClass, addClass } from './lib';
+import { fastForwardVideo, togglePlayer, progressUpdate, forwardRewind, backwardRewind, closeVideo, nextVideo, prevVideo, videoInit, videoRewind, removeClass, addClass } from './lib';
 import KeyCode from './constants';
 import './index.css';
 
@@ -20,7 +20,8 @@ currentTitle = document.querySelector('.current-video'),
 nextTitle = document.querySelector('.next-video'),
 prevBtn = document.querySelector('.prev-btn'),
 nextBtn = document.querySelector('.next-btn'),
-btnFocus = document.querySelectorAll('.btn-focus');
+btnFocus = document.querySelectorAll('.btn-focus'),
+seekbarTime = document.querySelector('.seekbar-time');
 let index = 0;
 let isFocus = false;
 let idleTimer = null;
@@ -78,13 +79,13 @@ closeBtn.addEventListener('click', () => {
 document.addEventListener('keydown', (evt) => {
     if(evt.keyCode ===  KeyCode.KEY_R)
         closeVideo(video, videoContainer);
-    // if(evt.keyCode === 9)
-    //     evt.preventDefault();
-    // if(evt.keyCode === 9 && evt.keyCode === 16)
-    //     evt.preventDefault();
+    if(evt.keyCode === KeyCode.TAB)
+        evt.preventDefault();
+    if(evt.keyCode === KeyCode.TAB && evt.keyCode === KeyCode.SHIFT)
+        evt.preventDefault();
     if(evt.keyCode === KeyCode.ARROW_RIGHT){
         if(isFocus){
-            forwardRewind(video, progress);
+            fastForwardVideo(video, progress)
         }else{
             videoController.classList.remove('hide');
             nextFocus();
@@ -95,7 +96,7 @@ document.addEventListener('keydown', (evt) => {
     }
     if(evt.keyCode === KeyCode.ARROW_LEFT){
         if(isFocus){
-            forwardRewind(video, progress);
+            backwardRewind(video, progress);
         }else{
             videoController.classList.remove('hide');
             prevFocus();
@@ -129,8 +130,8 @@ prevBtn.addEventListener('click', () => {
 nextBtn.addEventListener('click', () => {
     nextVideo(video, player, currentTitle, nextTitle);
 });
-video.ontimeupdate = () => {
-    progressUpdate(video, timeCurrent, timeDuration, progress, player, currentTitle, nextTitle);
+video.ontimeupdate = (evt) => {
+    progressUpdate(video, timeCurrent, timeDuration, progress, player, currentTitle, nextTitle, seekbarTime);
 };
 backwardBtn.addEventListener('click', () => {
     backwardRewind(video, progress);

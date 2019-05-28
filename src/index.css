@@ -39,9 +39,9 @@
     position: relative;
     display: flex;
     justify-content: space-between;
-    overflow: auto;
+    /* overflow: auto;
     overflow-y: hidden;
-    overflow-x: hidden;
+    overflow-x: hidden; */
 }
 
 .seekbar {
@@ -175,6 +175,16 @@
     outline: none;
     background: #498385;
     border-radius: 50%;
+}
+
+.seekbar-time{
+    background: #000;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 5px;
+    position: absolute;
+    top: -31px;
+    left: -23px;
 }
 
 .unselectable{
