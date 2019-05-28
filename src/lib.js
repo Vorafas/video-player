@@ -51,28 +51,6 @@ const checkPlayer = function(video){
     }
 }
 
-const forwardRewind = function(video, progress){
-    const forward = (video.duration / 100) * 15;
-    if((video.currentTime + forward) >= video.duration){
-        if(video.currentTime === video.duration)
-            return;
-        progress.style.width = `100%`;
-        video.pause();
-        video.currentTime = video.duration;
-    }else{
-        if(video.paused){
-            progress.style.width += 15;
-            video.currentTime += forward;
-        }else{
-            progress.style.width += 15;
-            video.pause();
-            video.currentTime += forward;
-            video.play();
-        }
-    }
-    checkPlayer(video);
-}
-
 const closeVideo = function(video, videoContainer){
     video.pause();
     checkPlayer(video);
@@ -113,6 +91,28 @@ const prevVideo = function(video, player, currentTitle, nextTitle){
         nextTitle.querySelector('.next-video-title p').textContent = dummyData[index + 1].title;
     }
     video.play().then(_ => checkPlayer(video));
+}
+
+const forwardRewind = function(video, progress, seekbarTime){
+    const forward = (video.duration / 100) * 15;
+    if((video.currentTime + forward) >= video.duration){
+        if(video.currentTime === video.duration)
+            return;
+        progress.style.width = `100%`;
+        video.pause();
+        video.currentTime = video.duration;
+    }else{
+        if(video.paused){
+            progress.style.width += 15;
+            video.currentTime += forward;
+        }else{
+            progress.style.width += 15;
+            video.pause();
+            video.currentTime += forward;
+            video.play();
+        }
+    }
+    checkPlayer(video);
 }
 
 const backwardRewind = function(video, progress){
@@ -194,8 +194,10 @@ const progressUpdate = function(video, timeCurrent, timeDuration, progress, play
         format(video, timeCurrent, timeDuration, seekbarTime);
         let d = video.duration;
         let c = video.currentTime;
-        seekbarTime.style.left = `${progress.clientWidth - 23}px`;
+        console.log('yes');
         progress.style.width = `${(100 * c) / d}%`;
+        seekbarTime.style.left = `${progress.clientWidth - 25}px`;
+        
     }
 }
 

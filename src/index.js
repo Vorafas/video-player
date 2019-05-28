@@ -52,21 +52,9 @@ const prevFocus = function(){
         index = btnFocus.length - 1;
     btnFocus[index].focus();
 }
-settingsQuality.addEventListener('click', () => {
-    player.on("streamInitialized", function () {
-        const bitrates = player.getBitrateInfoListFor("video");
-        player.getQualityFor(bitrates[0].qualityIndex);
-        console.log('My bitrate:' + bitrates.length);
-    });
-    const bitrates = player.getBitrateInfoListFor("video");
-        player.getQualityFor(bitrates[0].qualityIndex);
-    // const bitrates = player.getBitrateInfoListFor("video");
-    // console.log(bitrates);
-    // player.setFastSwitchEnabled(true);
-    // player.getQualityFor(bitrates[0].qualityIndex);
-});
 
 
+checkState();
 seekContainer.addEventListener('click', (evt) => {
     videoRewind(seekContainer, video, progress, evt);
 });
@@ -83,46 +71,48 @@ document.addEventListener('keydown', (evt) => {
         evt.preventDefault();
     if(evt.keyCode === KeyCode.TAB && evt.keyCode === KeyCode.SHIFT)
         evt.preventDefault();
-    if(evt.keyCode === KeyCode.ARROW_RIGHT){
-        if(isFocus){
-            fastForwardVideo(video, progress)
-        }else{
-            videoController.classList.remove('hide');
-            nextFocus();
-        }
-    }
-    if(evt.keyCode === KeyCode.BACKSPACE){
+    if(evt.keyCode === KeyCode.BACKSPACE)
         addClass(videoDescription, videoController)
+    if(evt.keyCode === KeyCode.ARROW_RIGHT){
+        videoController.classList.remove('hide');
+        if(isFocus){
+            fastForwardVideo(video, progress);
+        }else
+            nextFocus();
     }
     if(evt.keyCode === KeyCode.ARROW_LEFT){
+        videoController.classList.remove('hide');
         if(isFocus){
             backwardRewind(video, progress);
-        }else{
-            videoController.classList.remove('hide');
+        }else
             prevFocus();
-        }
     }
     if(evt.keyCode === KeyCode.ARROW_UP){
+        videoController.classList.remove('hide');
         if(document.activeElement === progress){
+            seekbarTime.classList.add('hide');
             isFocus = false;
             btnFocus[index].focus();
         }else{
+            seekbarTime.classList.remove('hide');
             progress.focus();
             isFocus = true; 
         }
     }
     if(evt.keyCode === KeyCode.ARROW_DOWN){
+        videoController.classList.remove('hide');
         if(document.activeElement === progress){
+            seekbarTime.classList.add('hide');
             isFocus = false;
             btnFocus[index].focus();
         }else{
+            seekbarTime.classList.remove('hide');
             progress.focus();
             isFocus = true; 
         }
     }
-    if(evt.keyCode === KeyCode.ENTER){
+    if(evt.keyCode === KeyCode.ENTER)
         document.activeElement.click();
-    }
 });
 prevBtn.addEventListener('click', () => {
     prevVideo(video, player, currentTitle, nextTitle);
@@ -137,11 +127,11 @@ backwardBtn.addEventListener('click', () => {
     backwardRewind(video, progress);
 });
 forwardBtn.addEventListener('click', () => {
-    forwardRewind(video, progress);
+    forwardRewind(video, progress, seekbarTime);
 });
 video.addEventListener('mousemove', ()=>{
     videoController.classList.remove('hide');
 });
-document.addEventListener('mousemove', checkState);
-document.addEventListener('keydown', checkState);
-document.addEventListener('scroll', checkState);
+document.body.addEventListener('mousemove', checkState);
+document.body.addEventListener('keydown', checkState);
+document.body.addEventListener('scroll', checkState);
