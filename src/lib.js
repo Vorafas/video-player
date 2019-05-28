@@ -77,6 +77,7 @@ const closeVideo = function(video, videoContainer){
     video.pause();
     checkPlayer(video);
     videoContainer.classList.toggle('hide-container');
+    document.body.classList.toggle('bg');
 }
 
 const nextVideo = function(video, player, currentTitle, nextTitle){
