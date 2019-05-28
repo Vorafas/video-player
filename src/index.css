@@ -23,7 +23,7 @@
     position: absolute;
     right: 0;
     left: 0;
-    bottom: 5px;
+    bottom: 4px;
 }
 
 .bg{
@@ -141,7 +141,7 @@
     display: flex;
     justify-content: space-between;
     position: absolute;
-    top: 0;
+    top: -1px;
     right: 0;
     left: 0;
 }

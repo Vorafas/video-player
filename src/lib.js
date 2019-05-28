@@ -158,10 +158,11 @@ const fastForwardVideo = function(video, progress){
     checkPlayer(video);
 }
 
-const togglePlayer = function(video){
+const togglePlayer = function(video, videoDescription){
     if(video.paused){
         video.play();
         playBtn.querySelector('.icon-btn').innerHTML = pauseIcon;
+        videoDescription.classList.remove('hide');
     }else{
         video.pause();
         playBtn.querySelector('.icon-btn').innerHTML = playIcon;
@@ -194,10 +195,8 @@ const progressUpdate = function(video, timeCurrent, timeDuration, progress, play
         format(video, timeCurrent, timeDuration, seekbarTime);
         let d = video.duration;
         let c = video.currentTime;
-        console.log('yes');
         progress.style.width = `${(100 * c) / d}%`;
         seekbarTime.style.left = `${progress.clientWidth - 25}px`;
-        
     }
 }
 

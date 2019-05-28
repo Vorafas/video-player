@@ -52,19 +52,24 @@ const prevFocus = function(){
         index = btnFocus.length - 1;
     btnFocus[index].focus();
 }
-
-
 checkState();
 seekContainer.addEventListener('click', (evt) => {
     videoRewind(seekContainer, video, progress, evt);
 });
 playBtn.addEventListener('click', () => {
-    togglePlayer(video);
+    togglePlayer(video, videoDescription);
 });
 closeBtn.addEventListener('click', () => {
     closeVideo(video, videoContainer);
 });
 document.addEventListener('keydown', (evt) => {
+    if(!video.paused && (evt.keyCode === KeyCode.ARROW_DOWN || 
+        evt.keyCode === KeyCode.ARROW_UP ||
+        evt.keyCode === KeyCode.ARROW_LEFT ||
+        evt.keyCode === KeyCode.ARROW_RIGHT ||
+        evt.keyCode === KeyCode.ENTER) && videoController.classList.contains("hide")){
+           videoDescription.classList.remove('hide'); 
+    }
     if(evt.keyCode ===  KeyCode.KEY_R)
         closeVideo(video, videoContainer);
     if(evt.keyCode === KeyCode.TAB)
@@ -111,8 +116,10 @@ document.addEventListener('keydown', (evt) => {
             isFocus = true; 
         }
     }
-    if(evt.keyCode === KeyCode.ENTER)
+    if(evt.keyCode === KeyCode.ENTER){
+        videoController.classList.remove("hide");
         document.activeElement.click();
+    }        
 });
 prevBtn.addEventListener('click', () => {
     prevVideo(video, player, currentTitle, nextTitle);
