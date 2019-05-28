@@ -9,19 +9,9 @@ let index = 0;
 
 const videoInit = function(player, video, currentTitle, nextTitle){
     player.initialize(video, dummyData[index].url, false);
-    //player.setAutoSwitchQualityFor("video", false);  
+    player.setAutoSwitchQualityFor("video", false);  
     currentTitle.querySelector('.current-video-title p').textContent = dummyData[index].title;
     nextTitle.querySelector('.next-video-title p').textContent = dummyData[index + 1].title;
-}
-
-const removeClass = function (videoDescription, videoController){
-    videoDescription.classList.remove('hide');
-    videoController.classList.remove('hide');
-}
-
-const addClass = function (videoDescription, videoController){
-    videoDescription.classList.add('hide');
-    videoController.classList.add('hide');
 }
 
 const videoRewind = function(seekContainer, video, progress, evt){
@@ -74,6 +64,16 @@ const nextVideo = function(video, player, currentTitle, nextTitle){
     }
     else nextTitle.classList.add('hide');
     video.play().then(_ => checkPlayer(video));
+}
+
+const removeClass = function (videoDescription, videoController){
+    videoDescription.classList.remove('hide');
+    videoController.classList.remove('hide');
+}
+
+const addClass = function (videoDescription, videoController){
+    videoDescription.classList.add('hide');
+    videoController.classList.add('hide');
 }
 
 const prevVideo = function(video, player, currentTitle, nextTitle){

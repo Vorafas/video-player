@@ -27,7 +27,7 @@ let isFocus = false;
 let idleTimer = null;
 let idleState = false; // состояние отсутствия
 let idleWait = 10000; // время ожидания в мс. (1/1000 секунды)
-
+let isBitrate = false;
 
 const player = dashjs.MediaPlayer().create();
 videoInit(player, video, currentTitle, nextTitle);
@@ -52,6 +52,22 @@ const prevFocus = function(){
         index = btnFocus.length - 1;
     btnFocus[index].focus();
 }
+const changeQuality = function(){
+    if(!isBitrate){
+        const bitrates = player.getBitrateInfoListFor("video");  //returns successfully
+        player.setInitialBitrateFor('video', 0);
+        player.setAutoSwitchQualityFor('video', false);
+        player.setQualityFor('video', 0);  
+        isBitrate = true;
+    }else{
+        const bitrates = player.getBitrateInfoListFor("video");  //returns successfully
+        player.setInitialBitrateFor('video', 0);
+        player.setAutoSwitchQualityFor('video', false);
+        player.setQualityFor('video', bitrates[bitrates.length - 1].qualityIndex);  
+        isBitrate = false;
+    }
+}
+settingsQuality.addEventListener('click', changeQuality);
 checkState();
 seekContainer.addEventListener('click', (evt) => {
     videoRewind(seekContainer, video, progress, evt);
@@ -115,6 +131,9 @@ document.addEventListener('keydown', (evt) => {
             progress.focus();
             isFocus = true; 
         }
+    }
+    if(evt.keyCode === KeyCode.KEY_Y){
+        changeQuality();
     }
     if(evt.keyCode === KeyCode.ENTER){
         videoController.classList.remove("hide");
