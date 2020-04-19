@@ -7,6 +7,10 @@ First clone this repository.
 ```
 $ git clone https://github.com/elshad98/video-player.git
 ```  
+Then go to the folder
+```
+$ cd video-player
+```
 Install dependencies. Make sure you already have nodejs & npm installed in your system.  
 ```
 $ npm install
